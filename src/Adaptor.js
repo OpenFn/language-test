@@ -27,57 +27,32 @@ export function execute(...operations) {
 }
 
 /**
- * Create a person
+ * Create a test JSON payload
  * @example
  * execute(
  *   person(data)
  * )(state)
  * @constructor
- * @param {object} personData - Payload data for the person
+ * @param {object} testData - Payload data for the person
  * @returns {Operation}
  */
-export function person(personData) {
+export function test(testData) {
 
   return state => {
-    const body = expandReferences(personData)(state);
+    const body = expandReferences(testData)(state);
 
     const { username, password, instanceUrl } = state.configuration;
 
-    const url = resolveUrl(instanceUrl + '/', 'ws/rest/v1/person')
+    const url = resolveUrl(instanceUrl + '/', 'test')
 
-    console.log("Posting person:");
+    console.log("Will connect to:");
+    console.log(url);
+    console.log("With username:");
+    console.log(username);
+    console.log("And valid password:")
+    console.log(!!password);
+    console.log("Will POST payload:");
     console.log(JSON.stringify(body));
-
-    return post({ username, password, body, url })
-    .then((result) => {
-      console.log("Success:", result);
-      return { ...state, references: [ result, ...state.references ] }
-    })
-
-  }
-}
-
-/**
- * Create a patient
- * @example
- * execute(
- *   patient(data)
- * )(state)
- * @constructor
- * @param {object} patientData - Payload data for the patient
- * @returns {Operation}
- */
-export function patient(patientData) {
-
-  return state => {
-    const body = expandReferences(patientData)(state);
-
-    const { username, password, instanceUrl } = state.configuration;
-
-    const url = resolveUrl(instanceUrl + '/', 'ws/rest/v1/patient')
-
-    console.log("Posting patient:");
-    console.log(JSON.stringify(body))
 
     return post({ username, password, body, url })
     .then((result) => {
