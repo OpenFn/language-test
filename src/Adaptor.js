@@ -41,29 +41,25 @@ export function test(testData) {
   return state => {
     const body = expandReferences(testData)(state);
 
-    const { username, password, instanceUrl } = state.configuration;
+    const { username, password, instanceUrl, loginUrl, apiUrl } = state.configuration;
 
-    const url = resolveUrl(instanceUrl + '/', 'test')
-
-    console.log("Will connect to:");
-    console.log(url);
-    console.log("With username:");
-    console.log(username);
-    console.log("And valid password:")
-    console.log(!!password);
-    console.log("Will POST payload:");
+    // console.log("Target URL:");
+    // if (instanceUrl) {
+    //   console.log(instanceUrl)
+    // } else if (apiUrl) {
+    //   console.log(instanceUrl)
+    // } else {
+    //   console.log(loginUrl)
+    // };
+    // console.log("Username:")
+    // console.log(username)
+    console.log("POST body:");
     console.log(JSON.stringify(body));
-
-    return post({ username, password, body, url })
-    .then((result) => {
-      console.log("Success:", result);
-      return { ...state, references: [ result, ...state.references ] }
-    })
 
   }
 }
 
 export {
-  field, fields, sourceValue,
+  field, fields, sourceValue, each, combine,
   merge, dataPath, dataValue, lastReferenceValue, arrayToString
 } from 'language-common';
